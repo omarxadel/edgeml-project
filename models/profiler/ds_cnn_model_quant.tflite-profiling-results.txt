@@ -1,0 +1,141 @@
+Profiling Summary
+Name: ds_cnn_model_quant
+Accelerator: None
+Input Shape: 1x256x256x3
+Input Data Type: float32
+Output Shape: 1x256x256x1
+Output Data Type: float32
+Flash, Model File Size (bytes): 3.0M
+RAM, Runtime Memory Size (bytes): 13.7M
+Operation Count: 5.8G
+Multiply-Accumulate Count: 2.9G
+Layer Count: 112.0
+Unsupported Layer Count: 0
+CPU Cycle Count: 1.4G
+CPU Utilization (%): 100.0
+Clock Rate (hz): 78.0M
+Time (s): 18.1
+Energy (J): 285.8m
+J/Op: 48.9p
+J/MAC: 99.4p
+Ops/s: 322.1M
+MACs/s: 158.5M
+Inference/s: 55.1m
+
+Layer Summary
+.-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------.
+| Layer Index |         OpCode          | # Ops  | # MACs | # CPU Cycles | Energy(J) | Time(s) |            Inputs             |    Outputs    |                       Options                        |
+|-------------|-------------------------|--------|--------|--------------|-----------|---------|-------------------------------|---------------|------------------------------------------------------|
+| 0           | quantize                | 786.4k | 0      | 1.3M         | 249.5u    | 16.5m   | 1x256x256x3                   | 1x256x256x3   | Type=none                                            |
+| 1           | depthwise_conv_2d       | 3.7M   | 1.8M   | 17.5M        | 3.4m      | 224.8m  | 1x256x256x3,1x3x3x3,3         | 1x256x256x3   | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 2           | conv_2d                 | 18.9M  | 6.3M   | 20.9M        | 4.2m      | 267.7m  | 1x256x256x3,32x1x1x3,32       | 1x256x256x32  | Padding:Valid stride:1x1 activation:Relu             |
+| 3           | depthwise_conv_2d       | 39.8M  | 18.9M  | 16.0M        | 3.2m      | 205.2m  | 1x256x256x32,1x3x3x32,32      | 1x256x256x32  | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 4           | conv_2d                 | 140.5M | 67.1M  | 21.8M        | 4.4m      | 278.9m  | 1x256x256x32,32x1x1x32,32     | 1x256x256x32  | Padding:Valid stride:1x1 activation:Relu             |
+| 5           | depthwise_conv_2d       | 10.0M  | 4.7M   | 16.0M        | 3.2m      | 205.2m  | 1x256x256x32,1x3x3x32,32      | 1x128x128x32  | Multiplier:1 padding:Same stride:2x2 activation:None |
+| 6           | conv_2d                 | 35.1M  | 16.8M  | 21.8M        | 4.4m      | 278.9m  | 1x128x128x32,32x1x1x32,32     | 1x128x128x32  | Padding:Valid stride:1x1 activation:Relu             |
+| 7           | max_pool_2d             | 2.1M   | 0      | 0            | 0         | 0       | 1x256x256x32                  | 1x128x128x32  | Padding:Valid stride:2x2 filter:2x2 activation:None  |
+| 8           | depthwise_conv_2d       | 10.0M  | 4.7M   | 14.4M        | 2.8m      | 184.9m  | 1x128x128x32,1x3x3x32,32      | 1x128x128x32  | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 9           | conv_2d                 | 70.3M  | 33.6M  | 35.7M        | 7.3m      | 457.3m  | 1x128x128x32,64x1x1x32,64     | 1x128x128x64  | Padding:Valid stride:1x1 activation:Relu             |
+| 10          | depthwise_conv_2d       | 19.9M  | 9.4M   | 14.4M        | 2.8m      | 184.9m  | 1x128x128x64,1x3x3x64,64      | 1x128x128x64  | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 11          | conv_2d                 | 137.4M | 67.1M  | 36.4M        | 7.5m      | 466.9m  | 1x128x128x64,64x1x1x64,64     | 1x128x128x64  | Padding:Valid stride:1x1 activation:Relu             |
+| 12          | depthwise_conv_2d       | 5.0M   | 2.4M   | 14.4M        | 2.8m      | 184.9m  | 1x128x128x64,1x3x3x64,64      | 1x64x64x64    | Multiplier:1 padding:Same stride:2x2 activation:None |
+| 13          | conv_2d                 | 34.3M  | 16.8M  | 36.4M        | 7.5m      | 466.9m  | 1x64x64x64,64x1x1x64,64       | 1x64x64x64    | Padding:Valid stride:1x1 activation:Relu             |
+| 14          | max_pool_2d             | 1.0M   | 0      | 0            | 0         | 0       | 1x128x128x64                  | 1x64x64x64    | Padding:Valid stride:2x2 filter:2x2 activation:None  |
+| 15          | depthwise_conv_2d       | 5.0M   | 2.4M   | 14.2M        | 2.8m      | 182.4m  | 1x64x64x64,1x3x3x64,64        | 1x64x64x64    | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 16          | conv_2d                 | 68.7M  | 33.6M  | 43.2M        | 8.9m      | 554.4m  | 1x64x64x64,128x1x1x64,128     | 1x64x64x128   | Padding:Valid stride:1x1 activation:Relu             |
+| 17          | depthwise_conv_2d       | 10.0M  | 4.7M   | 14.4M        | 2.8m      | 184.3m  | 1x64x64x128,1x3x3x128,128     | 1x64x64x128   | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 18          | conv_2d                 | 135.8M | 67.1M  | 45.4M        | 9.2m      | 582.2m  | 1x64x64x128,128x1x1x128,128   | 1x64x64x128   | Padding:Valid stride:1x1 activation:Relu             |
+| 19          | depthwise_conv_2d       | 2.5M   | 1.2M   | 11.9M        | 2.4m      | 152.3m  | 1x64x64x128,1x3x3x128,128     | 1x32x32x128   | Multiplier:1 padding:Same stride:2x2 activation:None |
+| 20          | conv_2d                 | 33.9M  | 16.8M  | 46.7M        | 9.7m      | 598.8m  | 1x32x32x128,128x1x1x128,128   | 1x32x32x128   | Padding:Valid stride:1x1 activation:Relu             |
+| 21          | max_pool_2d             | 524.3k | 0      | 0            | 0         | 0       | 1x64x64x128                   | 1x32x32x128   | Padding:Valid stride:2x2 filter:2x2 activation:None  |
+| 22          | depthwise_conv_2d       | 2.5M   | 1.2M   | 11.9M        | 2.4m      | 152.2m  | 1x32x32x128,1x3x3x128,128     | 1x32x32x128   | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 23          | conv_2d                 | 67.9M  | 33.6M  | 43.8M        | 9.1m      | 561.0m  | 1x32x32x128,256x1x1x128,256   | 1x32x32x256   | Padding:Valid stride:1x1 activation:Relu             |
+| 24          | depthwise_conv_2d       | 5.0M   | 2.4M   | 14.5M        | 2.9m      | 186.2m  | 1x32x32x256,1x3x3x256,256     | 1x32x32x256   | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 25          | conv_2d                 | 135.0M | 67.1M  | 45.4M        | 9.2m      | 582.2m  | 1x32x32x256,256x1x1x256,256   | 1x32x32x256   | Padding:Valid stride:1x1 activation:Relu             |
+| 26          | depthwise_conv_2d       | 1.2M   | 589.8k | 8.0M         | 2.1m      | 102.1m  | 1x32x32x256,1x3x3x256,256     | 1x16x16x256   | Multiplier:1 padding:Same stride:2x2 activation:None |
+| 27          | conv_2d                 | 33.8M  | 16.8M  | 20.3M        | 4.0m      | 260.3m  | 1x16x16x256,256x1x1x256,256   | 1x16x16x256   | Padding:Valid stride:1x1 activation:Relu             |
+| 28          | max_pool_2d             | 262.1k | 0      | 0            | 0         | 0       | 1x32x32x256                   | 1x16x16x256   | Padding:Valid stride:2x2 filter:2x2 activation:None  |
+| 29          | depthwise_conv_2d       | 1.2M   | 589.8k | 7.8M         | 1.5m      | 99.8m   | 1x16x16x256,1x3x3x256,256     | 1x16x16x256   | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 30          | conv_2d                 | 67.5M  | 33.6M  | 26.4M        | 5.4m      | 338.5m  | 1x16x16x256,512x1x1x256,512   | 1x16x16x512   | Padding:Valid stride:1x1 activation:Relu             |
+| 31          | depthwise_conv_2d       | 2.5M   | 1.2M   | 12.3M        | 2.4m      | 158.2m  | 1x16x16x512,1x3x3x512,512     | 1x16x16x512   | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 32          | conv_2d                 | 134.6M | 67.1M  | 46.7M        | 9.7m      | 598.8m  | 1x16x16x512,512x1x1x512,512   | 1x16x16x512   | Padding:Valid stride:1x1 activation:Relu             |
+| 33          | depthwise_conv_2d       | 2.5M   | 1.2M   | 12.3M        | 2.4m      | 158.2m  | 1x16x16x512,1x3x3x512,512     | 1x16x16x512   | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 34          | conv_2d                 | 67.3M  | 33.6M  | 33.3M        | 6.8m      | 426.3m  | 1x16x16x512,256x1x1x512,256   | 1x16x16x256   | Padding:Valid stride:1x1 activation:Relu             |
+| 35          | add                     | 65.5k  | 0      | 5.5M         | 1.2m      | 70.4m   | 1x16x16x256,1x16x16x256       | 1x16x16x256   | Activation:None                                      |
+| 36          | depthwise_conv_2d       | 196.6k | 65.5k  | 8.2M         | 1.6m      | 105.4m  | 1x16x16x256,1x1x1x256,256     | 1x16x16x256   | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 37          | conv_2d                 | 131.3k | 65.5k  | 827.1k       | 112.2u    | 10.6m   | 1x16x16x256,1x1x1x256,1       | 1x16x16x1     | Padding:Valid stride:1x1 activation:None             |
+| 38          | logistic                | 0      | 0      | 0            | 0         | 0       | 1x16x16x1                     | 1x16x16x1     | Type=none                                            |
+| 39          | resize_nearest_neighbor | 8.4k   | 0      | 0            | 0         | 0       | 1x16x16x1,2                   | 1x32x32x1     | Type=resizenearestneighboroptions                    |
+| 40          | mul                     | 262.1k | 0      | 0            | 0         | 0       | 1x32x32x1,1x32x32x256         | 1x32x32x256   | Activation:None                                      |
+| 41          | mul                     | 262.1k | 0      | 0            | 0         | 0       | 1x32x32x256,256               | 1x32x32x256   | Activation:None                                      |
+| 42          | add                     | 262.1k | 0      | 5.5M         | 1.2m      | 71.0m   | 1x32x32x256,256               | 1x32x32x256   | Activation:None                                      |
+| 43          | shape                   | 0      | 0      | 0            | 0         | 0       | 1x16x16x512                   | 4             | Type=shapeoptions                                    |
+| 44          | strided_slice           | 0      | 0      | 0            | 0         | 0       | 4,1,1,1                       |               | Type=stridedsliceoptions                             |
+| 45          | pack                    | 0      | 0      | 0            | 0         | 0       | ,,,                           | 4             | Type=packoptions                                     |
+| 46          | transpose_conv          | 604.0M | 302.0M | 0            | 0         | 0       | 4,256x3x3x512,1x16x16x512,256 | 1x32x32x256   | Padding:Same stride:2x2                              |
+| 47          | concatenation           | 0      | 0      | 0            | 0         | 0       | 1x32x32x256,1x32x32x256       | 1x32x32x512   | Type=concatenationoptions                            |
+| 48          | depthwise_conv_2d       | 10.0M  | 4.7M   | 14.5M        | 2.9m      | 186.2m  | 1x32x32x512,1x3x3x512,512     | 1x32x32x512   | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 49          | conv_2d                 | 269.2M | 134.2M | 45.4M        | 9.2m      | 582.2m  | 1x32x32x512,256x1x1x512,256   | 1x32x32x256   | Padding:Valid stride:1x1 activation:Relu             |
+| 50          | depthwise_conv_2d       | 5.0M   | 2.4M   | 14.5M        | 2.9m      | 186.2m  | 1x32x32x256,1x3x3x256,256     | 1x32x32x256   | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 51          | conv_2d                 | 135.0M | 67.1M  | 45.4M        | 9.2m      | 582.2m  | 1x32x32x256,256x1x1x256,256   | 1x32x32x256   | Padding:Valid stride:1x1 activation:Relu             |
+| 52          | depthwise_conv_2d       | 5.0M   | 2.4M   | 14.5M        | 2.9m      | 186.2m  | 1x32x32x256,1x3x3x256,256     | 1x32x32x256   | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 53          | conv_2d                 | 67.5M  | 33.6M  | 48.4M        | 9.8m      | 620.7m  | 1x32x32x256,128x1x1x256,128   | 1x32x32x128   | Padding:Valid stride:1x1 activation:Relu             |
+| 54          | add                     | 131.1k | 0      | 5.5M         | 1.2m      | 71.0m   | 1x32x32x128,1x32x32x128       | 1x32x32x128   | Activation:None                                      |
+| 55          | depthwise_conv_2d       | 393.2k | 131.1k | 11.5M        | 2.2m      | 147.3m  | 1x32x32x128,1x1x1x128,128     | 1x32x32x128   | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 56          | conv_2d                 | 263.2k | 131.1k | 1.4M         | 197.2u    | 17.6m   | 1x32x32x128,1x1x1x128,1       | 1x32x32x1     | Padding:Valid stride:1x1 activation:None             |
+| 57          | logistic                | 0      | 0      | 0            | 0         | 0       | 1x32x32x1                     | 1x32x32x1     | Type=none                                            |
+| 58          | resize_nearest_neighbor | 33.3k  | 0      | 0            | 0         | 0       | 1x32x32x1,2                   | 1x64x64x1     | Type=resizenearestneighboroptions                    |
+| 59          | mul                     | 524.3k | 0      | 0            | 0         | 0       | 1x64x64x1,1x64x64x128         | 1x64x64x128   | Activation:None                                      |
+| 60          | mul                     | 524.3k | 0      | 0            | 0         | 0       | 1x64x64x128,128               | 1x64x64x128   | Activation:None                                      |
+| 61          | add                     | 524.3k | 0      | 5.5M         | 1.2m      | 71.0m   | 1x64x64x128,128               | 1x64x64x128   | Activation:None                                      |
+| 62          | shape                   | 0      | 0      | 0            | 0         | 0       | 1x32x32x256                   | 4             | Type=shapeoptions                                    |
+| 63          | strided_slice           | 0      | 0      | 0            | 0         | 0       | 4,1,1,1                       |               | Type=stridedsliceoptions                             |
+| 64          | pack                    | 0      | 0      | 0            | 0         | 0       | ,,,                           | 4             | Type=packoptions                                     |
+| 65          | transpose_conv          | 604.0M | 302.0M | 0            | 0         | 0       | 4,128x3x3x256,1x32x32x256,128 | 1x64x64x128   | Padding:Same stride:2x2                              |
+| 66          | concatenation           | 0      | 0      | 0            | 0         | 0       | 1x64x64x128,1x64x64x128       | 1x64x64x256   | Type=concatenationoptions                            |
+| 67          | depthwise_conv_2d       | 19.9M  | 9.4M   | 14.5M        | 2.9m      | 186.4m  | 1x64x64x256,1x3x3x256,256     | 1x64x64x256   | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 68          | conv_2d                 | 270.0M | 134.2M | 45.4M        | 9.2m      | 582.2m  | 1x64x64x256,128x1x1x256,128   | 1x64x64x128   | Padding:Valid stride:1x1 activation:Relu             |
+| 69          | depthwise_conv_2d       | 10.0M  | 4.7M   | 14.4M        | 2.8m      | 184.3m  | 1x64x64x128,1x3x3x128,128     | 1x64x64x128   | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 70          | conv_2d                 | 135.8M | 67.1M  | 45.4M        | 9.2m      | 582.2m  | 1x64x64x128,128x1x1x128,128   | 1x64x64x128   | Padding:Valid stride:1x1 activation:Relu             |
+| 71          | depthwise_conv_2d       | 10.0M  | 4.7M   | 14.4M        | 2.8m      | 184.3m  | 1x64x64x128,1x3x3x128,128     | 1x64x64x128   | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 72          | conv_2d                 | 67.9M  | 33.6M  | 38.0M        | 7.8m      | 486.6m  | 1x64x64x128,64x1x1x128,64     | 1x64x64x64    | Padding:Valid stride:1x1 activation:Relu             |
+| 73          | add                     | 262.1k | 0      | 5.5M         | 1.2m      | 71.0m   | 1x64x64x64,1x64x64x64         | 1x64x64x64    | Activation:None                                      |
+| 74          | depthwise_conv_2d       | 786.4k | 262.1k | 14.7M        | 2.8m      | 188.5m  | 1x64x64x64,1x1x1x64,64        | 1x64x64x64    | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 75          | conv_2d                 | 528.4k | 262.1k | 2.9M         | 527.1u    | 37.2m   | 1x64x64x64,1x1x1x64,1         | 1x64x64x1     | Padding:Valid stride:1x1 activation:None             |
+| 76          | logistic                | 0      | 0      | 0            | 0         | 0       | 1x64x64x1                     | 1x64x64x1     | Type=none                                            |
+| 77          | resize_nearest_neighbor | 132.1k | 0      | 0            | 0         | 0       | 1x64x64x1,2                   | 1x128x128x1   | Type=resizenearestneighboroptions                    |
+| 78          | mul                     | 1.0M   | 0      | 0            | 0         | 0       | 1x128x128x1,1x128x128x64      | 1x128x128x64  | Activation:None                                      |
+| 79          | mul                     | 1.0M   | 0      | 0            | 0         | 0       | 1x128x128x64,64               | 1x128x128x64  | Activation:None                                      |
+| 80          | add                     | 1.0M   | 0      | 5.5M         | 1.2m      | 71.0m   | 1x128x128x64,64               | 1x128x128x64  | Activation:None                                      |
+| 81          | shape                   | 0      | 0      | 0            | 0         | 0       | 1x64x64x128                   | 4             | Type=shapeoptions                                    |
+| 82          | strided_slice           | 0      | 0      | 0            | 0         | 0       | 4,1,1,1                       |               | Type=stridedsliceoptions                             |
+| 83          | pack                    | 0      | 0      | 0            | 0         | 0       | ,,,                           | 4             | Type=packoptions                                     |
+| 84          | transpose_conv          | 604.0M | 302.0M | 0            | 0         | 0       | 4,64x3x3x128,1x64x64x128,64   | 1x128x128x64  | Padding:Same stride:2x2                              |
+| 85          | concatenation           | 0      | 0      | 0            | 0         | 0       | 1x128x128x64,1x128x128x64     | 1x128x128x128 | Type=concatenationoptions                            |
+| 86          | depthwise_conv_2d       | 39.8M  | 18.9M  | 14.6M        | 2.8m      | 186.7m  | 1x128x128x128,1x3x3x128,128   | 1x128x128x128 | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 87          | conv_2d                 | 271.6M | 134.2M | 38.0M        | 7.8m      | 486.6m  | 1x128x128x128,64x1x1x128,64   | 1x128x128x64  | Padding:Valid stride:1x1 activation:Relu             |
+| 88          | depthwise_conv_2d       | 19.9M  | 9.4M   | 14.4M        | 2.8m      | 184.9m  | 1x128x128x64,1x3x3x64,64      | 1x128x128x64  | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 89          | conv_2d                 | 137.4M | 67.1M  | 36.4M        | 7.5m      | 466.9m  | 1x128x128x64,64x1x1x64,64     | 1x128x128x64  | Padding:Valid stride:1x1 activation:Relu             |
+| 90          | depthwise_conv_2d       | 19.9M  | 9.4M   | 14.4M        | 2.8m      | 184.9m  | 1x128x128x64,1x3x3x64,64      | 1x128x128x64  | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 91          | conv_2d                 | 68.7M  | 33.6M  | 22.9M        | 4.6m      | 293.1m  | 1x128x128x64,32x1x1x64,32     | 1x128x128x32  | Padding:Valid stride:1x1 activation:Relu             |
+| 92          | add                     | 524.3k | 0      | 5.5M         | 1.2m      | 71.0m   | 1x128x128x32,1x128x128x32     | 1x128x128x32  | Activation:None                                      |
+| 93          | depthwise_conv_2d       | 1.6M   | 524.3k | 14.8M        | 2.8m      | 189.4m  | 1x128x128x32,1x1x1x32,32      | 1x128x128x32  | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 94          | conv_2d                 | 1.1M   | 524.3k | 6.2M         | 1.2m      | 79.3m   | 1x128x128x32,1x1x1x32,1       | 1x128x128x1   | Padding:Valid stride:1x1 activation:None             |
+| 95          | logistic                | 0      | 0      | 0            | 0         | 0       | 1x128x128x1                   | 1x128x128x1   | Type=none                                            |
+| 96          | resize_nearest_neighbor | 526.3k | 0      | 0            | 0         | 0       | 1x128x128x1,2                 | 1x256x256x1   | Type=resizenearestneighboroptions                    |
+| 97          | mul                     | 2.1M   | 0      | 0            | 0         | 0       | 1x256x256x1,1x256x256x32      | 1x256x256x32  | Activation:None                                      |
+| 98          | mul                     | 2.1M   | 0      | 0            | 0         | 0       | 1x256x256x32,32               | 1x256x256x32  | Activation:None                                      |
+| 99          | add                     | 2.1M   | 0      | 5.5M         | 1.2m      | 71.0m   | 1x256x256x32,32               | 1x256x256x32  | Activation:None                                      |
+| 100         | shape                   | 0      | 0      | 0            | 0         | 0       | 1x128x128x64                  | 4             | Type=shapeoptions                                    |
+| 101         | strided_slice           | 0      | 0      | 0            | 0         | 0       | 4,1,1,1                       |               | Type=stridedsliceoptions                             |
+| 102         | pack                    | 0      | 0      | 0            | 0         | 0       | ,,,                           | 4             | Type=packoptions                                     |
+| 103         | transpose_conv          | 604.1M | 302.0M | 0            | 0         | 0       | 4,32x3x3x64,1x128x128x64,32   | 1x256x256x32  | Padding:Same stride:2x2                              |
+| 104         | concatenation           | 0      | 0      | 0            | 0         | 0       | 1x256x256x32,1x256x256x32     | 1x256x256x64  | Type=concatenationoptions                            |
+| 105         | depthwise_conv_2d       | 79.7M  | 37.7M  | 16.0M        | 3.2m      | 205.0m  | 1x256x256x64,1x3x3x64,64      | 1x256x256x64  | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 106         | conv_2d                 | 274.7M | 134.2M | 22.9M        | 4.6m      | 293.1m  | 1x256x256x64,32x1x1x64,32     | 1x256x256x32  | Padding:Valid stride:1x1 activation:Relu             |
+| 107         | depthwise_conv_2d       | 39.8M  | 18.9M  | 16.0M        | 3.2m      | 205.2m  | 1x256x256x32,1x3x3x32,32      | 1x256x256x32  | Multiplier:1 padding:Same stride:1x1 activation:None |
+| 108         | conv_2d                 | 140.5M | 67.1M  | 21.8M        | 4.4m      | 278.9m  | 1x256x256x32,32x1x1x32,32     | 1x256x256x32  | Padding:Valid stride:1x1 activation:Relu             |
+| 109         | conv_2d                 | 4.3M   | 2.1M   | 12.2M        | 2.4m      | 156.1m  | 1x256x256x32,1x1x1x32,1       | 1x256x256x1   | Padding:Same stride:1x1 activation:None              |
+| 110         | logistic                | 0      | 0      | 0            | 0         | 0       | 1x256x256x1                   | 1x256x256x1   | Type=none                                            |
+| 111         | dequantize              | 131.1k | 0      | 573.9k       | 4.4u      | 7.4m    | 1x256x256x1                   | 1x256x256x1   | Type=none                                            |
+'-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------'
