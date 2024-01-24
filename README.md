@@ -17,6 +17,11 @@ I'm continuing on the work done by [Oktay et al., 2018](https://arxiv.org/pdf/18
 
 You can find the code for the base model and its quantization in `attention-unet-base.ipynb` and the code for the depth-wise separable convolutions model and its quantization in `attention-unet-ds.ipynb`. The models are in the models directory along with their respective profiling using [MLTK Profiler](https://siliconlabs.github.io/mltk/docs/guides/model_profiler_utility.html).
 
+| Notebook                  | Description                                                  | Colab                                                                                                                                                                                      |
+| ------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| attention-unet-base.ipynb | Base model and its quantization                              | <a href="https://colab.research.google.com/github/omarxadel/edgeml-project/blob/main/attention-unet-base.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"  ></a> |
+| attention-unet-ds.ipynb   | Depth-wise separable convolutions model and its quantization | <a href="https://colab.research.google.com/github/omarxadel/edgeml-project/blob/main/attention-unet-ds.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"  ></a>   |
+
 ## Results
 
 | Names                            | Attention-U-Net-base | Attention-U-Net-quantized | Attention-U-Net-DS | Attention-U-Net-DS-quantized |
@@ -37,7 +42,7 @@ This work was made as a class project for CSE758 (TinyML - Edge Machine Learning
 
 ## TODO
 
-- [ ] Add **Open in colab** button for the two notebooks.
+- [x] Add **Open in colab** button for the two notebooks.
 - [ ] Upload the research paper.
 
 ## References
